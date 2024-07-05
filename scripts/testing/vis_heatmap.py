@@ -21,4 +21,5 @@ def vis_global_heatmap(pcd_path):
     o3d.visualization.draw_geometries([scene_heatmap_pcd])
 
 if __name__ == "__main__":
-    pcd_path = "your_pcd_path"
+    pcd_path = "/home/user/yzchen_ws/imitation_learning/RiEMann/data/mug/pick/newpose.npz"
+    vis_global_heatmap(pcd_path)

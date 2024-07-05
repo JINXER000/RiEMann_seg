@@ -14,7 +14,7 @@ def main(args):
     cfg_seg = all_cfg.seg
     cfg_mani = all_cfg.mani
 
-    wd = os.path.join("experiments", args.exp_name, args.pick_or_place, args.setting)
+    wd = os.path.join("experiments", args.exp_name, args.pick_or_place)
     pcd_path = os.path.join("data", args.exp_name, args.pick_or_place, f"{args.setting}.npz")
     pcd = np.load(pcd_path)
 
@@ -48,7 +48,8 @@ def main(args):
             draw_pcd=True,
             pcd_name=args.setting,
         )
-        output_pos, output_direction, _, _, _ = policy_mani(
+
+        output_pos, output_direction = policy_mani(
             {"xyz": xyz, "rgb": rgb}, 
             reference_point=ref_point, 
             distance_threshold=cfg_mani.distance_threshold,
@@ -57,6 +58,13 @@ def main(args):
             pcd_name=args.setting,
         )
         out_dir_schmidt = modified_gram_schmidt(output_direction.reshape(-1, 3).T, to_cuda=True)
+
+    # ref_point_cpu is the center of the focus
+    ref_point_cpu = ref_point.detach().cpu().numpy()
+    # import open3d as o3d
+    # pcd = o3d.geometry.PointCloud()
+    # pcd.points = o3d.utility.Vector3dVector(ref_point_cpu)
+    # o3d.io.write_point_cloud('ref_point.ply', pcd)
 
     pred_pos = output_pos.detach().cpu().numpy().reshape(3)
     pred_rot = out_dir_schmidt.detach().cpu().numpy()
@@ -72,7 +80,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('-exp_name', type=str, default="mug")
     parser.add_argument('-pick_or_place', type=str, choices=["pick", "place"], default="pick")
-    parser.add_argument('-setting', type=str, default='newpose')
+    parser.add_argument('-setting', type=str, default='instance')
     args = parser.parse_args()
 
     main(args)

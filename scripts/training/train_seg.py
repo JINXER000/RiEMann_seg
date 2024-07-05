@@ -11,6 +11,7 @@ from tqdm import tqdm
 import argparse
 from torch.optim.lr_scheduler import StepLR
 
+torch.cuda.empty_cache()
 
 def main(args):
     all_cfg = OmegaConf.load(f"config/{args.exp_name}/{args.pick_or_place}/config.json")
