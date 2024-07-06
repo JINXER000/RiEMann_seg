@@ -6,19 +6,28 @@ from transforms3d.axangles import axangle2mat, mat2axangle
 from copy import deepcopy
 
 class SE3Demo(Dataset):
-    def __init__(self, demo_dir, data_aug=False, device="cuda:0", aug_methods=[]):
+    def __init__(self, demo_dir, data_aug=False, device="cuda:0", aug_methods=[], is_tape = False):
         super(SE3Demo, self).__init__()
 
         self.device = device
         demo = np.load(demo_dir, allow_pickle=True) 
         if isinstance(demo, np.ndarray):
             demo = demo.item()
-        traj_num, video_len, point_num, _ = demo["xyz"].shape
 
-        self.xyz = torch.from_numpy(demo["xyz"][:, 0:20, ...]).float().to(self.device).reshape(-1, point_num, 3)
-        self.rgb = torch.from_numpy(demo["rgb"][:, 0:20, ...]).float().to(self.device).reshape(-1, point_num, 3)
-        self.seg_center = torch.from_numpy(demo["seg_center"][:, 0:20, ...]).float().to(self.device).reshape(-1, 3)
-        self.axes = torch.from_numpy(demo["axes"][:, 0:20, ...]).float().to(self.device).reshape(-1, 9)
+        if not is_tape:
+            traj_num, video_len, point_num, _ = demo["xyz"].shape
+
+            self.xyz = torch.from_numpy(demo["xyz"][:, 0:20, ...]).float().to(self.device).reshape(-1, point_num, 3)
+            self.rgb = torch.from_numpy(demo["rgb"][:, 0:20, ...]).float().to(self.device).reshape(-1, point_num, 3)
+            self.seg_center = torch.from_numpy(demo["seg_center"][:, 0:20, ...]).float().to(self.device).reshape(-1, 3)
+            self.axes = torch.from_numpy(demo["axes"][:, 0:20, ...]).float().to(self.device).reshape(-1, 9)
+        else:
+            # for tape
+            demo_num= demo["xyz"].shape
+            self.xyz = torch.from_numpy(demo["xyz"]).float().to(self.device)
+            self.rgb = torch.from_numpy(demo["rgb"]).float().to(self.device)
+            self.seg_center = torch.from_numpy(demo["seg_center"]).float().to(self.device)
+            self.axes = torch.from_numpy(demo["axes"]).float().to(self.device)
 
         self.data_aug = data_aug
         self.aug_methods = aug_methods

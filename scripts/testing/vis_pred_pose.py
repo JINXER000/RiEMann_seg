@@ -40,6 +40,8 @@ def main(pcd_path, result_path):
     vis.destroy_window()
     
 if __name__ == "__main__":
-    pcd_path = "/home/user/yzchen_ws/imitation_learning/RiEMann/data/mug/pick/instance.npz"
-    result_path = "/home/user/yzchen_ws/imitation_learning/RiEMann/experiments/mug/pick/instance_pred_pose.npz"
+    # pcd_path = "/home/user/yzchen_ws/imitation_learning/RiEMann/data/mug/pick/instance.npz"
+    # result_path = "/home/user/yzchen_ws/imitation_learning/RiEMann/experiments/mug/pick/instance_pred_pose.npz"
+    pcd_path = "/home/user/yzchen_ws/imitation_learning/RiEMann/data/mug/pick/data3.npz"
+    result_path = "/home/user/yzchen_ws/imitation_learning/RiEMann/experiments/mug/pick/riemann_focus_demo_pred_pose.npz"
     main(pcd_path, result_path)

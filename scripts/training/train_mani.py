@@ -19,9 +19,10 @@ def main(cfg):
 
     wd = os.path.join("experiments", args.exp_name, args.pick_or_place)
     os.makedirs(wd, exist_ok=True)
-    demo_path = os.path.join("data", args.exp_name, args.pick_or_place, "demo.npz")
+    # demo_path = os.path.join("data", args.exp_name, args.pick_or_place, "demo.npz")
+    demo_path = os.path.join("data", args.exp_name, args.pick_or_place, "riemann_focus_demo.npz")
 
-    demo = SE3Demo(demo_path, data_aug=cfg.data_aug, aug_methods=cfg.aug_methods, device=cfg.device)
+    demo = SE3Demo(demo_path, data_aug=cfg.data_aug, aug_methods=cfg.aug_methods, device=cfg.device, is_tape = True)
     train_size = int(len(demo) * cfg.train_demo_ratio)
     test_size = len(demo) - train_size
     train_dataset, test_dataset = torch.utils.data.random_split(demo, [train_size, test_size])
@@ -56,6 +57,10 @@ def main(cfg):
                 training_ref_point = ref_point
             elif cfg.ref_point == "gt":
                 training_ref_point = data["seg_center"]
+            elif cfg.ref_point == "center":
+                # compute the mass center of xyz. Note: data["xyz"].shape = (1, 1024, 3)
+                training_ref_point = data["xyz"].mean(dim=1)
+                
 
             output_pos, output_direction = policy(
                 {"xyz": data["xyz"], "rgb": data["rgb"]}, 
