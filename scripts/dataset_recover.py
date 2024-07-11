@@ -11,7 +11,7 @@ from utils.data_utils import SE3Demo
 
 def main(demo_path):
     
-    demo = SE3Demo(demo_path, data_aug=False, device="cuda:0", is_tape=False)
+    demo = SE3Demo(demo_path, data_aug=False, device="cuda:0", is_tape=True)
 
     for i in range(len(demo)):
         gt_trans = np.identity(4)
@@ -47,5 +47,6 @@ def main(demo_path):
         # vis.destroy_window()
     
 if __name__ == "__main__":
-    demo_path = "/home/user/yzchen_ws/imitation_learning/RiEMann/data/mug/pick/demo.npz"  # demo.npz  |  riemann_focus_demo.npz
+    # demo_path = "/home/user/yzchen_ws/imitation_learning/RiEMann/data/mug/pick/demo.npz"  # demo.npz  |  riemann_focus_demo.npz
+    demo_path  = "/home/xuhang/Desktop/yzchen_ws/RiEMann_seg/data/mug/pick/riemann_center.npz"
     main(demo_path)

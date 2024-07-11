@@ -26,7 +26,7 @@ def main(args):
         ref_point_cpu = demo['seg_center'][select_id]
     elif cfg_mani.ref_point == "center":
         ref_point_cpu = cpu_xyz.mean(axis=0)  #  Note: cpu_xyz.shape = (1024, 3)
-    np.savez('/home/user/yzchen_ws/imitation_learning/RiEMann/data/mug/pick/data{}.npz'.format(select_id), xyz = cpu_xyz, rgb = cpu_rgb)
+    # np.savez('/home/user/yzchen_ws/imitation_learning/RiEMann/data/mug/pick/data{}.npz'.format(select_id), xyz = cpu_xyz, rgb = cpu_rgb)
 
     input_xyz = torch.tensor(cpu_xyz).float().unsqueeze(0).to(cfg_seg.device)
     input_rgb = torch.tensor(cpu_rgb).float().unsqueeze(0).to(cfg_seg.device)

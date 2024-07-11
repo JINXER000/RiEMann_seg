@@ -28,6 +28,7 @@ class SE3Demo(Dataset):
             self.rgb = torch.from_numpy(demo["rgb"]).float().to(self.device)
             self.seg_center = torch.from_numpy(demo["seg_center"]).float().to(self.device)
             self.axes = torch.from_numpy(demo["axes"]).float().to(self.device)
+            self.obj_point = torch.from_numpy(demo["obj_point"][:, 0:20, ...]).float().to(self.device).reshape(-1, 3)
 
         self.data_aug = data_aug
         self.aug_methods = aug_methods
@@ -41,6 +42,8 @@ class SE3Demo(Dataset):
             "rgb": self.rgb[index],
             "seg_center": self.seg_center[index],
             "axes": self.axes[index],
+            # if is tape
+            "obj_point": self.obj_point[index] 
         }
 
         with torch.no_grad():

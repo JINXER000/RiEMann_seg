@@ -1,3 +1,14 @@
+```
+pip3 install torch torchvision
+python
+torch.__version__
+pip install torch-scatter torch-sparse -f https://data.pyg.org/whl/torch-2.X.1+${CUDA}.html
+pip install torch-cluster -f https://data.pyg.org/whl/torch-2.X.1+${CUDA}.html
+conda install -c dglteam/label/th22_cu121 dgl  #https://www.dgl.ai/pages/start.html
+pip install dglgo -f https://data.dgl.ai/wheels-test/repo.html
+```
+
+
 <h2 align="center">
   <b>RiEMann: Near Real-Time SE(3)-Equivariant Robot Manipulation without Point Cloud Segmentation</b>
 
